@@ -1,0 +1,97 @@
+---
+title: Word Subsets
+date: 2022-06-30
+description: 
+tags:
+    - Leetcode
+    - Hashtable
+---
+[916. Word Subsets](https://leetcode.com/problems/word-subsets/)
+> You are given two string arrays words1 and words2. <br/>
+> 
+> A string b is a <b>subset</b> of string a if every letter in b occurs in a including multiplicity.  <br/>
+> 
+> - For example, "wrr" is a subset of "warrior" but is not a subset of "world".  <br/>
+> 
+> A string a from words1 is **universal** if for every string b in words2, b is a subset of a.  <br/>
+> 
+> Return an array of all the **universal** strings in words1. You may return the answer in **any** order.
+> 
+> **Example**: <br/>
+> ```
+> Input: words1 = ["amazon","apple","facebook","google","leetcode"], words2 = ["e","o"]
+> Output: ["facebook","google","leetcode"]
+> ```
+
+### Brute Force
+
+A naive way of solving this problem will be:
+-  Count the letter frequency for each word in words1 and words2
+-  Compare the letter frequency of each word in words1 against each word in word2
+
+```python
+from collections import Counter
+
+class Solution:
+    def wordSubsets(self, words1: List[str], words2: List[str]) -> List[str]:
+        
+        dicts_a = list(map(lambda x: Counter(x), words1))
+        dicts_b = list(map(lambda x: Counter(x), words2))
+        result = []
+
+        for index, dict_a in enumerate(dicts_a):
+            add = True
+            for dict_b in dicts_b:
+                for letter, value in dict_b.items():
+                    if not letter in a or dict_a[letter] < value:
+                        add = False
+                        break
+                if not add:
+                    break
+                
+            if add:
+                result.append(words1[index])
+        
+        return result
+```
+
+However, the time complexity of this method is O(abmn), where a, b are the lengths of longest word in words1 and words2, m,n are the lengths for words1 and words2. This is not ideal.
+
+### Optimized Method
+When comparing with each word in words2, we may notice that there is actully no need for word in words1 to be compared with every word in words2. We can find the maximum frequency of letters that appear in words2, and compare word in words1 against this frequency list. Since if there is a letter in any word with a higher frequency than the letter in word in words1, the word will not be universal <br/> 
+
+```python
+from collections import Counter
+
+class Solution:
+    def wordSubsets(self, words1: List[str], words2: List[str]) -> List[str]:
+    
+        dicts_a = list(map(lambda x: Counter(x), words1))
+        dicts_b = list(map(lambda x: Counter(x), words2))
+        max_dict_b = {}
+        result = []
+        
+        #creating the maximum frequency list for words2
+        for dict_b in dicts_b:
+            for letter, count in dict_b.items():
+                if letter not in max_dict_b:
+                    max_dict_b[letter] = count
+                else:
+                    max_dict_b[letter] = max(max_dict_b[letter], count)
+        
+        for index, a in enumerate(dicts_a):
+            add = True
+            for letter, value in max_dict_b.items():
+                if not letter in a or a[letter] < value:
+                    add = False
+                    break
+                
+            if add:
+                result.append(words1[index])
+        
+        return result
+```
+
+The time complexity of this solution will be O(a*b*m), since we removed iteration of words2 when comparing.<br/>
+
+In this problem, we extract the information we care about (max-frequency list) from the original information (frequency list of every word), therefore reduce the problem size.
