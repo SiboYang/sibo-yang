@@ -29,3 +29,17 @@ tags:
   - Dave Hoover and Adewale Oshineye’s Apprenticeship Patterns: Guidance for the Aspiring Software Craftsman (O’Reilly Media, 2009) is a great collection of “patterns” one can use to get started in a new environment, seek guidance, learn skills deeply, and overcome common hurdles.
   - For more on asking questions, we recommend All You Have to Do Is Ask: How to Master the Most Important Skill for Success by Wayne Baker (Currency, 2020). This book is divided into two parts. The first section discusses the value of asking questions and why it’s hard. The second half of the book is a toolkit for asking questions effectively.
   - For more on pair programming, the classic text is Extreme Programming Explained: Embrace Change by Kent Beck and Cynthia Andres (Addison-Wesley, 2004). The book covers much more than just pair programming. If you are interested in a shorter read, the article “On Pair Programming” by Birgitta Böckeler and Nina Siessegger at https://www.martinfowler.com/articles/on-pair-programming.html is an excellent practical guide.
+### About the code
+- Addressing Technical Debt
+  1. State the situation factually
+  2. Describe the risk and cost of the debt
+  3. Propose a solution
+  4. Discuss alternatives
+  5. Weight the trade-offs
+- Legacy Code Change Algorithm
+  1. Identify change points
+  2. Find test points
+  3. Break dependencies (change the code to make the test easier, since test points are not easily accessible for most of the cases)
+  4. Write tests
+  5. Make changes and refactor
+- Try to keep the code-cleanup commits separate from your behavior changing commits. Separating commits makes it easier to revert code changes without losing code-cleanup commits.
